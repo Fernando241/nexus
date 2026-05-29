@@ -8,21 +8,19 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Domains\Identity\Domain\Entities\Tenant;
 use App\Domains\Identity\Domain\ValueObjects\Email;
+use App\Domains\Identity\Application\DTOs\RegisterUserCommand;
 use App\Domains\Identity\Infrastructure\Persistence\TenantModel;
 
 final class RegisterUser
 {
-    public function execute(
-        string $tenantName,
-        string $userName,
-        string $email,
-    ): array {
+    public function execute(RegisterUserCommand $command): array
+    {
         $tenant = new Tenant(
             id: null,
-            name: $tenantName,
+            name: $command->tenantName,
         );
 
-        $email = new Email($email);
+        $email = new Email($command->email);
 
         $tenantModel = TenantModel::query()->create([
             'name' => $tenant->name,
@@ -31,7 +29,7 @@ final class RegisterUser
 
         $user = User::query()->create([
             'tenant_id' => $tenantModel->id,
-            'name' => $userName,
+            'name' => $command->userName,
             'email' => $email->value,
             'password' => Hash::make('password123'),
         ]);

@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Identity;
 
-use App\Domains\Identity\Application\UseCases\RegisterUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-
-/* Controlador no decide negocio solo:
-    - recibe HTTP
-    - extrae datos
-    - llama al caso de uso
-    - devuelve la respuesta HTTP */
+use App\Http\Requests\Identity\RegisterUserRequest;
+use App\Domains\Identity\Application\UseCases\RegisterUser;
+use App\Domains\Identity\Application\DTOs\RegisterUserCommand;
 
 final class RegisterUserController
 {
-    public function __invoke(           // Inyectamos el caso de uso directamente, lo que facilita la prueba y mantiene el controlador delgado.
-        Request $request,
-        RegisterUser $registerUser,     // Inyectamos el caso de uso directamente, lo que facilita la prueba y mantiene el controlador delgado.
+    public function __invoke(
+        RegisterUserRequest $request,
+        RegisterUser $registerUser,
     ): JsonResponse {
-        $result = $registerUser->execute(
-            tenantName: $request->string('tenant_name')->toString(),
-            userName: $request->string('user_name')->toString(),
-            email: $request->string('email')->toString(),
+        $command = new RegisterUserCommand(
+            tenantName: $request->validated('tenant_name'),
+            userName: $request->validated('user_name'),
+            email: $request->validated('email'),
         );
+
+        $result = $registerUser->execute($command);
 
         return response()->json([
             'message' => 'User registered successfully.',
             'data' => $result,
-        ]);
+        ], 201);
     }
 }
