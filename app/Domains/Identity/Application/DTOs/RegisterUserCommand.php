@@ -9,6 +9,7 @@ final readonly class RegisterUserCommand
     public function __construct(
         public string $tenantName,
         public string $userName,
+        public string $password,
         public string $email,
     ) {
     }

@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace App\Domains\Identity\Application\UseCases;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use App\Domains\Identity\Domain\Entities\Tenant;
 use App\Domains\Identity\Domain\ValueObjects\Email;
 use App\Domains\Identity\Application\DTOs\RegisterUserCommand;
+use App\Domains\Identity\Application\Security\PasswordHasher;
 use App\Domains\Identity\Infrastructure\Persistence\TenantModel;
 
 final class RegisterUser
 {
+    public function __construct(
+        private readonly PasswordHasher $passwordHasher,
+    ) {
+    }
+
     public function execute(RegisterUserCommand $command): array
     {
         $tenant = new Tenant(
@@ -31,7 +36,9 @@ final class RegisterUser
             'tenant_id' => $tenantModel->id,
             'name' => $command->userName,
             'email' => $email->value,
-            'password' => Hash::make('password123'),
+            'password' => $this->passwordHasher->hash(
+                $command->password
+            ),
         ]);
 
         return [

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Domains\Identity\Application\Security\PasswordHasher;
+use App\Domains\Identity\Infrastructure\Security\BcryptPasswordHasher;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            PasswordHasher::class,
+            BcryptPasswordHasher::class
+        );
     }
 
     /**
@@ -22,3 +27,5 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 }
+
+

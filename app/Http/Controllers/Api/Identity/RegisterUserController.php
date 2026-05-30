@@ -18,6 +18,7 @@ final class RegisterUserController
         $command = new RegisterUserCommand(
             tenantName: $request->validated('tenant_name'),
             userName: $request->validated('user_name'),
+            password: $request->validated('password'),
             email: $request->validated('email'),
         );
 

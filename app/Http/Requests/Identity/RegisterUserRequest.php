@@ -31,6 +31,12 @@ final class RegisterUserRequest extends FormRequest
                 'max:120',
             ],
 
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+            ],
+
             'email' => [
                 'required',
                 'email',
