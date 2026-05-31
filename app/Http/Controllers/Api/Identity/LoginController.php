@@ -9,6 +9,7 @@ use App\Http\Requests\Identity\LoginRequest;
 use App\Domains\Identity\Application\DTOs\LoginCommand;
 use App\Domains\Identity\Application\UseCases\LoginUser;
 use App\Domains\Identity\Application\Exceptions\InvalidCredentialsException;
+use App\Models\User;
 
 final class LoginController
 {
@@ -24,14 +25,24 @@ final class LoginController
                 )
             );
 
+            $user = User::findOrFail(
+                $authenticatedUser->userId
+            );
+
+            $token = $user
+                ->createToken('api-token')
+                ->plainTextToken;
+
             return response()->json([
                 'data' => [
                     'user_id' => $authenticatedUser->userId,
                     'tenant_id' => $authenticatedUser->tenantId,
                     'name' => $authenticatedUser->name,
                     'email' => $authenticatedUser->email,
+                    'token' => $token,
                 ],
             ]);
+
         } catch (InvalidCredentialsException) {
             return response()->json([
                 'message' => 'Invalid credentials.',
