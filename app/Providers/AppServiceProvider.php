@@ -7,6 +7,8 @@ use App\Domains\Identity\Application\Security\PasswordHasher;
 use App\Domains\Identity\Infrastructure\Security\BcryptPasswordHasher;
 use App\Domains\Identity\Application\Security\CurrentUser;
 use App\Domains\Identity\Infrastructure\Security\LaravelCurrentUser;
+use App\Domains\Identity\Application\Security\CurrentTenant;
+use App\Domains\Identity\Infrastructure\Security\LaravelCurrentTenant;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CurrentUser::class,
             LaravelCurrentUser::class
+        );
+
+        $this->app->bind(
+            CurrentTenant::class,
+            LaravelCurrentTenant::class
         );
     }
 
