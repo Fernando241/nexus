@@ -10,13 +10,13 @@ The project is being built as a long-term backend engineering and software archi
 
 NEXUS is designed to evolve into a scalable SaaS ecosystem capable of supporting:
 
-* Multi-branch commercial operations
-* Natural products manufacturing workflows
-* Batch and expiration traceability
-* Omnichannel sales
-* Inventory and warehouse management
-* Subscription-based SaaS distribution
-* Modular feature activation per tenant
+- Multi-branch commercial operations
+- Natural products manufacturing workflows
+- Batch and expiration traceability
+- Omnichannel sales
+- Inventory and warehouse management
+- Subscription-based SaaS distribution
+- Modular feature activation per tenant
 
 The system is intentionally structured to simulate real production-oriented engineering decisions instead of tutorial-level development.
 
@@ -24,25 +24,25 @@ The system is intentionally structured to simulate real production-oriented engi
 
 # Core Architectural Goals
 
-* Build a scalable modular monolith
-* Maintain clear domain boundaries
-* Protect business rules from framework coupling
-* Apply pragmatic clean architecture principles
-* Develop API-first backend systems
-* Support future SaaS multi-tenancy scaling
-* Create maintainable and evolvable backend infrastructure
+- Build a scalable modular monolith
+- Maintain clear domain boundaries
+- Protect business rules from framework coupling
+- Apply pragmatic clean architecture principles
+- Develop API-first backend systems
+- Support future SaaS multi-tenancy scaling
+- Create maintainable and evolvable backend infrastructure
 
 ---
 
 # Current Stack
 
-* Laravel 13
-* PHP 8.4
-* Docker Compose
-* MySQL 8.4
-* Redis
-* React (planned)
-* Vite
+- Laravel 13
+- PHP 8.4
+- Docker Compose
+- MySQL 8.4
+- Redis
+- React (planned)
+- Vite
 
 ---
 
@@ -52,20 +52,16 @@ NEXUS follows a pragmatic modular monolith architecture organized by business do
 
 Current internal structure:
 
-
 app/
 ├── Domains/
-│   ├── Identity/
-│   │   ├── Domain/
-│   │   ├── Application/
-│   │   └── Infrastructure/
-│   │
-│   └── Shared/
+│ ├── Identity/
+│ ├── Product/
+│ └── Shared/
 │
-├── Support/
 ├── Http/
 ├── Models/
 └── Providers/
+
 ```
 
 The architecture separates:
@@ -96,12 +92,21 @@ Implemented:
 * Dockerized development environment
 * Laravel API-first foundation
 * Modular domain structure
-* Initial Identity module
+* Identity domain
+* Product domain
 * Tenant persistence
 * User ↔ Tenant relationship
-* Initial multi-tenant architecture
-* First vertical slice:
-  HTTP → Controller → UseCase → Domain → Persistence → Database
+* Authentication with Sanctum
+* CurrentUser abstraction
+* CurrentTenant abstraction
+* Tenant-aware query strategy
+* Multi-tenant isolation tests
+* Vertical slices:
+  - Register User
+  - Login User
+  - List Users
+  - Create Product
+  - List Products
 
 ---
 
@@ -123,5 +128,8 @@ The project intentionally avoids premature overengineering while still maintaini
 # Project Status
 
 Current phase:
+Multi-Tenant Foundation Completed
 
-Foundation & Initial Multi-Tenant Identity Architecture
+Current Focus:
+Business Domain Expansion (Products)
+```
