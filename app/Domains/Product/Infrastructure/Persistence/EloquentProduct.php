@@ -15,7 +15,22 @@ class EloquentProduct extends Model
     protected $fillable = [
         'tenant_id',
         'name',
+        'presentation',
+        'description',
+        'indications',
+        'contraindications',
+        'ingredients',
+        'purchase_price',
+        'sale_price',
+        'image_path',
     ];
+
+    protected $casts = [
+        'ingredients' => 'array',
+        'purchase_price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
+    ];
+
     /** @use HasFactory<ProductFactory> */
     protected static function newFactory(): ProductFactory
     {

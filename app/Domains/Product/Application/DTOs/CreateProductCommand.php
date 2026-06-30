@@ -2,22 +2,17 @@
 
 namespace App\Domains\Product\Application\DTOs;
 
-final readonly class ProductData
+final readonly class CreateProductCommand
 {
     public function __construct(
-        public int $id,
-        public int $tenantId,
-
         public string $name,
         public ?string $presentation,
         public ?string $description,
         public ?string $indications,
         public ?string $contraindications,
         public ?array $ingredients,
-
         public ?string $purchasePrice,
         public ?string $salePrice,
-
         public ?string $imagePath,
     ) {
     }

@@ -53,6 +53,8 @@ final class ProductsTenantIsolationTest extends TestCase
 
         $response->assertOk();
 
+        $response->assertJsonCount(2);
+
         $response->assertJsonFragment([
             'name' => 'Miel',
         ]);
